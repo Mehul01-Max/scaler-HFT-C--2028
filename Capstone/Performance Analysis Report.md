@@ -49,21 +49,22 @@
 
 6. #  What would we try next? : Cache-Line Alignment (alignas(64)) & Structure Packing
 
-* Currently, PriceLevel and OrderNode are of arbitrary sizes which can split across multiple cache line boundaries. Padding and packing PriceLevel can help me fit exactly two PriceLevel in 1 cache line each being 32 bytes and ensuring 0 cache line penalty.
+* Currently, my PriceLevel and OrderNode are of arbitrary sizes which can split across multiple cache line boundaries. Padding and packing PriceLevel can help me fit exactly two PriceLevel in 1 cache line each being 32 bytes and ensuring 0 cache line penalty.
 
 
 7. # Results Table
 
-| Metric | Impl A (std::map) | Impl B (priority\_queue) | Impl C (Direct Index Array) |
-| :---- | :---- | :---- | :---- |
-| Total Runtime (ms) | 110.96 ms | 8,297.26 ms | 21.34 ms |
-| ns / add\_order | 81.50 ns | 41.00 ns | 12.51 ns |
-| ns / cancel\_order | 68.68 ns | 12.79 ns | 7.22 ns |
-| ns / get\_bbo | 0.267 ns | 3.965 ns | 0.265 ns |
-| IPC | 0.48 | 0.25 | 0.59 |
-| L1-dcache Misses | 57.90 Million | 3.80 Billion | 15.09 Million |
-| Branch Misses | 38.64 Million | 252.10 Million | 5.67 Million |
-| Page Faults | 971,250 | 696,661 | 971,208 |
+   
 
- 
+| Metric | A: Map | B: Heap | C: Array |
+| ----- | ----- | ----- | ----- |
+| Total time (ms) | 110.96 | 8,297.26 | 21.34 |
+| ns/add | 81.50 | 41.00 | 12.51 |
+| ns/cancel | 68.68 | 12.79 | 7.22 |
+| ns/BBO | 0.267 | 3.965 | 0.265 |
+| IPC | 0.48 | 0.25 | 0.59 |
+| Branch misses (%) | 10.38% | 7.76% | 2.64% |
+| L1 load misses | 57.90M | 3,802.08M | 15.09M |
+| LLC misses | 57.09M | 4,350.21M | 54.06M |
+| Page faults | 971,250 | 696,661 | 971,208 |
 
